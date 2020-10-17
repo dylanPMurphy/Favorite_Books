@@ -23,3 +23,9 @@ def newBook(request):
 
         )
         return redirect('/books')
+
+def favBook(request):
+    if request.method =="POST":
+        targetBook = Book.objects.get(id=request.POST['book_to_fav_id'])
+        targetBook.users_who_favorited.add(User.objects.get(id=request.session['userid']))
+        return redirect('/books')
