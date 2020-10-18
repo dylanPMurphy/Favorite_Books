@@ -20,7 +20,7 @@
     <div id="list_container">
         {%for book in allBooks%}
             <div>
-                <h5><a href="">{{book.title}}</a></h5>
+                <h5><a href="/books/{{book.id}}">{{book.title}}</a></h5>
                 <p>(added by {{book.user_who_posted.full_name}})</p>
                 {% if book in authenticated_user.books_favorited.all%}
                     <p>this is one of your favorites</p>
