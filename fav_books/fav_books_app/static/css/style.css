@@ -1,0 +1,9 @@
+.col{
+    display: inline-block;
+    width:30%;
+    vertical-align: top;
+    color:blue;
+}
+form{
+    background-color: thistle;
+}

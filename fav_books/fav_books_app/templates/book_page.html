@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favorite Books</title>
+    {%load static%}
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
 </head>
 <body>
+
     <h2>Welcome {{authenticated_user.first_name}}</h2>
     <a href="/logout">LOGOUT</a>
-    {%if authenticated_user.id == selected_book.user_who_posted.id%}    
+    <hr>
+    <div class="col">
+        {%if authenticated_user.id == selected_book.user_who_posted.id%}    
         <form action="/books/update" method="post">
             {%csrf_token%}
 
@@ -26,22 +31,24 @@
             <input type="hidden" name="book_id" value={{selected_book.id}}>
             <input type="submit" value="Delete">
         </form>
-    {% else %}
-    <form action="/books/update" method="post">
-        {%csrf_token%}
+        {% else %}
+        <form action="/books/update" method="post">
+            {%csrf_token%}
 
-        <input type="hidden" name="book_id" value={{selected_book.id}}>
-        <p>{{selected_book.title}}</p>
-        <p>Added by: {{selected_book.user_who_posted.full_name}}</p>
-        <p>Added on: {{selected_book.created_at}}</p>
-        <p>Last updated on: {{selected_book.updated_at}}</p>
-        <p>Description</p>
-        <p>{{selected_book.description}}</p>
-    </form>
-    {%endif%}
+            <input type="hidden" name="book_id" value={{selected_book.id}}>
+            <p>{{selected_book.title}}</p>
+            <p>Added by: {{selected_book.user_who_posted.full_name}}</p>
+            <p>Added on: {{selected_book.created_at}}</p>
+            <p>Last updated on: {{selected_book.updated_at}}</p>
+            <p>Description</p>
+            <p>{{selected_book.description}}</p>
+        </form>
+        {%endif%}
+    </div>
+    
 
 
-    <div id="userlist">
+    <div class="col">
         <h3>Users Who Like This Book</h3>
         <ul>
             {%for user in selected_book.users_who_favorited.all%}

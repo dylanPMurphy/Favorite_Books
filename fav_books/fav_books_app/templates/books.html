@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favorite Books</title>
+    {%load static%}
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
 </head>
 <body>
     <h2>Welcome {{authenticated_user.first_name}}</h2>
     <a href="/logout">LOGOUT</a>
+    <div class='col'>
+        <h3>Add a Favorite Book</h3>
+        <form action="/books/new" method="post">
+            {%csrf_token%}
+            <p> Title:</p> <input type="text" name="title">
+            <p>Description:</p> <textarea name="desc" cols="10" rows="5"></textarea>
+            <input type="submit" value="Add">
+        </form>
 
-    <h3>Add a Favorite Book</h3>
-    <form action="/books/new" method="post">
-        {%csrf_token%}
-        Title: <input type="text" name="title">
-        Description: <textarea name="desc" cols="10" rows="5"></textarea>
-        <input type="submit" value="Add">
-    </form>
-
-    <div id="list_container">
+    </div>
+    
+    <div class='col'>
+        <h2>All Books</h2>
         {%for book in allBooks%}
             <div>
                 <h5><a href="/books/{{book.id}}">{{book.title}}</a></h5>
