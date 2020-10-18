@@ -32,6 +32,11 @@ def favBook(request):
         targetBook.users_who_favorited.add(User.objects.get(id=request.session['userid']))
         return redirect('/books')
 
+def unFavBook(request):
+    if request.method =="POST":
+        targetBook = Book.objects.get(id=request.POST['book_to_un_fav_id'])
+        targetBook.users_who_favorited.remove(User.objects.get(id=request.session['userid']))
+        return redirect('/books')
 def showBook(request, book_id):
     context = {
         'authenticated_user': User.objects.get(id=request.session['userid']),
@@ -52,3 +57,4 @@ def deleteBook(request):
     selected_book = Book.objects.get(id=request.POST['book_id'])
     selected_book.delete()
     return redirect('/books')
+

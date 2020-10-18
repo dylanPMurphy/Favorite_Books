@@ -40,5 +40,31 @@
     </form>
     {%endif%}
 
+
+    <div id="userlist">
+        <h3>Users Who Like This Book</h3>
+        <ul>
+            {%for user in selected_book.users_who_favorited.all%}
+            <li>
+                <p>{{user.full_name}}</p>
+                {%if authenticated_user.id == user.id%}
+                    <form action="/books/unFav" method="post">
+                        {%csrf_token%}
+                        <input type="hidden" name="book_to_un_fav_id" value={{selected_book.id}}>
+                        <input type="submit" value="Un-Favorite">
+                    </form>
+                {%endif%}
+            </li>
+            {%endfor%}
+        </ul>
+        {%if authenticated_user not in selected_book.users_who_favorited.all%}
+        <form action="/books/addFav" method="post">
+            {%csrf_token%}
+            <input type="hidden" name="book_to_fav_id" value={{selected_book.id}}>
+            <input type="submit" value="Add To Favorites">
+        </form>
+        {%endif%}
+
+    </div>
 </body>
 </html>
