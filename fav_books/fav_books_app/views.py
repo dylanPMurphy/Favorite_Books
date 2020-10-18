@@ -16,12 +16,14 @@ def index(request):
 
 def newBook(request):
     if request.method =="POST":
-        Book.objects.create(
+        book1 = Book.objects.create(
             title = request.POST['title'],
             description = request.POST['desc'],
             user_who_posted = User.objects.get(id=request.session['userid']),
-
+            
         )
+        
+        book1.users_who_favorited.add(User.objects.get(id=request.session['userid']))
         return redirect('/books')
 
 def favBook(request):
