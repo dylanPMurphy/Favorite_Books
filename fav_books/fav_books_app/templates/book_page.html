@@ -8,24 +8,37 @@
 <body>
     <h2>Welcome {{authenticated_user.first_name}}</h2>
     <a href="/logout">LOGOUT</a>
-    
+    {%if authenticated_user.id == selected_book.user_who_posted.id%}    
+        <form action="/books/update" method="post">
+            {%csrf_token%}
+
+            <input type="hidden" name="book_id" value={{selected_book.id}}>
+            <input type="text" name="title" value="{{selected_book.title}}">
+            <p>Added by: {{selected_book.user_who_posted.full_name}}</p>
+            <p>Added on: {{selected_book.created_at}}</p>
+            <p>Last updated on: {{selected_book.updated_at}}</p>
+            <p>Description</p>
+            <textarea name="desc" id="" cols="30" rows="10" >{{selected_book.description}}</textarea>
+            <input type="submit" value="Update">
+        </form>
+        <form action="/books/delete" method="post">
+            {%csrf_token%}
+            <input type="hidden" name="book_id" value={{selected_book.id}}>
+            <input type="submit" value="Delete">
+        </form>
+    {% else %}
     <form action="/books/update" method="post">
         {%csrf_token%}
 
         <input type="hidden" name="book_id" value={{selected_book.id}}>
-        <input type="text" name="title" value="{{selected_book.title}}">
+        <p>{{selected_book.title}}</p>
         <p>Added by: {{selected_book.user_who_posted.full_name}}</p>
         <p>Added on: {{selected_book.created_at}}</p>
         <p>Last updated on: {{selected_book.updated_at}}</p>
         <p>Description</p>
-        <textarea name="desc" id="" cols="30" rows="10" >{{selected_book.description}}</textarea>
-        <input type="submit" value="Update">
+        <p>{{selected_book.description}}</p>
     </form>
-    <form action="/books/delete" method="post">
-        {%csrf_token%}
-        <input type="hidden" name="book_id" value={{selected_book.id}}>
-        <input type="submit" value="Delete">
+    {%endif%}
 
-    </form>
 </body>
 </html>
